@@ -90,7 +90,7 @@ function getGeminiReply(data: GeminiResponse) {
 
 export async function POST(request: Request) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.API_Key;
 
     if (!apiKey) {
       return Response.json(
@@ -142,8 +142,7 @@ export async function POST(request: Request) {
         {
           success: false,
           message:
-            data.error?.message ??
-            "Gemini could not process the chat request.",
+            data.error?.message ?? "Gemini could not process the chat request.",
         },
         { status: geminiResponse.status },
       );

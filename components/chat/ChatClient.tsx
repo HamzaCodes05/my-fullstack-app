@@ -1,5 +1,6 @@
 "use client";
 
+import FormattedText from "./FormattedText";
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 
 type ChatMessage = {
@@ -40,7 +41,8 @@ export function ChatClient() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const box = messagesEndRef.current?.parentElement;
+    box?.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
   }, [messages, isSending]);
 
   async function sendMessage(messageText: string) {
@@ -174,13 +176,13 @@ export function ChatClient() {
                 }`}
               >
                 <div
-                  className={`max-w-[88%] rounded-lg px-4 py-3 text-sm leading-6 sm:max-w-[76%] sm:text-base ${
+                  className={`max-w-[88%] whitespace-pre-wrap rounded-lg px-4 py-3 text-sm leading-6 sm:max-w-[76%] sm:text-base ${
                     message.role === "user"
                       ? "bg-[#075f42] text-white"
                       : "border border-[#d9e3df] bg-white text-[#17211f]"
                   }`}
                 >
-                  {message.content}
+                  <FormattedText text={message.content} />
                 </div>
               </article>
             ))}

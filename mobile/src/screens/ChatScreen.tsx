@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -50,10 +50,6 @@ export function ChatScreen() {
   const [messages, setMessages] = useState<ChatMessage[]>(starterMessages);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
-
-  useEffect(() => {
-    scrollRef.current?.scrollToEnd({ animated: true });
-  }, [messages, isSending]);
 
   async function sendMessage(messageText: string) {
     const content = messageText.trim();

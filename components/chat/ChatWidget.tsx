@@ -1,5 +1,6 @@
 "use client";
 
+import FormattedText from "./FormattedText";
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -44,7 +45,8 @@ export function ChatWidget() {
 
   useEffect(() => {
     if (isOpen) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const box = messagesEndRef.current?.parentElement;
+      box?.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
     }
   }, [isOpen, messages, isSending]);
 
@@ -189,7 +191,7 @@ export function ChatWidget() {
                       : "border border-[#d9e3df] bg-white text-[#17211f]"
                   }`}
                 >
-                  {message.content}
+                  <FormattedText text={message.content} />
                 </div>
               </article>
             ))}
