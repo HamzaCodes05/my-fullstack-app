@@ -14,6 +14,12 @@ const navItems = [
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
+    // Hard navigation so the proxy re-checks the (now cleared) cookies.
+    window.location.assign("/login");
+  }
+
   function closeMenu() {
     setMenuOpen(false);
   }
@@ -55,6 +61,14 @@ export function LandingHeader() {
 
         <button
           type="button"
+          onClick={logout}
+          className="hidden min-h-12 items-center justify-center rounded-full border border-[#075f42] px-5 text-base font-semibold text-[#075f42] transition hover:bg-[#075f42] hover:text-white md:inline-flex"
+        >
+          Logout
+        </button>
+
+        <button
+          type="button"
           onClick={() => setMenuOpen((current) => !current)}
           className="flex size-12 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full border border-[#dfcfb5] bg-white/90 text-[#075f42] shadow-sm transition hover:border-[#d89c34] hover:text-[#b7791f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/20 md:hidden"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -86,6 +100,13 @@ export function LandingHeader() {
             >
               Contact Us
             </Link>
+            <button
+              type="button"
+              onClick={logout}
+              className="flex min-h-12 items-center justify-center rounded-lg border border-[#075f42] px-4 text-base font-bold text-[#075f42]"
+            >
+              Logout
+            </button>
           </div>
         </div>
       ) : null}

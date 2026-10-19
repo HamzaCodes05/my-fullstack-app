@@ -110,16 +110,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(async () => {
     const current = sessionRef.current;
 
+    // Clear locally first so a slow/unreachable API can't keep you signed in.
+    await applySession(null);
+
     if (current) {
-      // Best-effort revocation; the local session is cleared either way.
-      await fetch(`${API_BASE_URL}/api/auth/logout`, {
+      // Best-effort revocation in the background.
+      fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refreshToken: current.refreshToken }),
       }).catch(() => undefined);
     }
-
-    await applySession(null);
   }, [applySession]);
 
   const refresh = useCallback(async () => {

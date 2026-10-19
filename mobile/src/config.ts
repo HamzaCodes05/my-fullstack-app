@@ -1,3 +1,4 @@
+import Constants from "expo-constants";
 import { NativeModules, Platform } from "react-native";
 
 declare const process: {
@@ -8,10 +9,17 @@ declare const process: {
   };
 };
 
-const FALLBACK_API_HOST = "192.168.39.43";
 const API_PORT = process.env?.EXPO_PUBLIC_API_PORT ?? "3000";
 
 function getMetroHost() {
+  // "192.168.x.x:8081" -- the dev machine Expo is serving from.
+  const hostUri = Constants.expoConfig?.hostUri ?? Constants.linkingUri;
+  const fromExpo = hostUri?.match(/^(?:[a-z][a-z\d+.-]*:\/\/)?([^/:?]+)/i)?.[1];
+
+  if (fromExpo) {
+    return fromExpo;
+  }
+
   const scriptURL = NativeModules.SourceCode?.scriptURL;
 
   if (typeof scriptURL !== "string") {
@@ -22,7 +30,10 @@ function getMetroHost() {
 }
 
 function normalizeHost(host: string) {
-  if (Platform.OS === "android" && (host === "localhost" || host === "127.0.0.1")) {
+  if (
+    Platform.OS === "android" &&
+    (host === "localhost" || host === "127.0.0.1")
+  ) {
     return "10.0.2.2";
   }
 
@@ -44,8 +55,7 @@ const explicitBaseUrl = process.env?.EXPO_PUBLIC_API_BASE_URL;
 const explicitHost = process.env?.EXPO_PUBLIC_API_HOST;
 const metroHost = getMetroHost();
 const apiHost = normalizeHost(
-  explicitHost ??
-    (metroHost && isLocalApiHost(metroHost) ? metroHost : FALLBACK_API_HOST),
+  explicitHost ?? (metroHost && isLocalApiHost(metroHost) ? metroHost : ""),
 );
 
 export const API_BASE_URL = explicitBaseUrl ?? `http://${apiHost}:${API_PORT}`;

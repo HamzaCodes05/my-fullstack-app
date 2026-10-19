@@ -36,7 +36,9 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
     } catch (error) {
       setMessage(
         error instanceof Error && error.message
-          ? error.message
+          ? /fetch|network/i.test(error.message)
+            ? `Could not reach ${API_BASE_URL} (${error.message}).`
+            : error.message
           : `Could not reach ${API_BASE_URL}. Start the Next.js app before testing auth.`,
       );
     } finally {

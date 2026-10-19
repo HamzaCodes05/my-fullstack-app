@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Pressable, StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useAuth } from "../auth/AuthContext";
 import { MobileNavigationContext } from "./MobileNavigationContext";
 import { navItems } from "../data/purePath";
 import type { Navigate, RouteName } from "../types";
@@ -19,10 +20,8 @@ export function MobileShell({
   children,
 }: MobileShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuItems: { label: string; route: RouteName }[] = [
-    ...navItems,
-    { label: "Login", route: "login" },
-  ];
+  const { logout } = useAuth();
+  const menuItems: { label: string; route: RouteName }[] = navItems;
 
   function handleNavigate(route: RouteName) {
     onNavigate(route);
@@ -94,6 +93,18 @@ export function MobileShell({
                 </Pressable>
               );
             })}
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => {
+                setMenuOpen(false);
+                void logout();
+              }}
+              className="min-h-[46px] flex-row items-center rounded-lg border border-[#d9e3df] bg-pure-white px-3.5 active:opacity-80"
+            >
+              <Text className="text-base font-extrabold text-pure-ink">
+                Logout
+              </Text>
+            </Pressable>
           </View>
         ) : null}
       </View>
