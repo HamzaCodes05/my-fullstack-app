@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
+import PasswordInput from "@/components/PasswordInput";
+
 export default function LoginPage() {
   const router = useRouter();
 
@@ -92,16 +94,15 @@ export default function LoginPage() {
           Password
         </label>
 
-        <input
-          type="password"
-          value={form.password}
+        <PasswordInput
+                    value={form.password}
           onChange={(event) =>
             setForm({
               ...form,
               password: event.target.value,
             })
           }
-          className="mb-6 w-full rounded border border-[#075f42]/20 px-3 py-2 text-gray-900 outline-none transition focus:border-[#d89c34] focus:ring-2 focus:ring-[#d89c34]/25"
+          className="mb-6"
           placeholder="Enter password"
         />
 

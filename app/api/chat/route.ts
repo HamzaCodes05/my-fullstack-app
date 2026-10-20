@@ -43,6 +43,14 @@ Tone:
 - Ask one focused follow-up question when it helps move a booking or planning conversation forward.
 `.trim();
 
+const customPackageInstruction = `
+Custom package mode:
+- You are helping the pilgrim design a custom Hajj or Umrah package.
+- Gather, one or two questions at a time: Hajj or Umrah, travel dates, trip length, number of travelers (adults, children, seniors), departure city, budget, hotel preference (distance to Haram, star level) in Makkah and Madinah, meals, flights, and special needs.
+- Once you have enough details, reply with a clear package proposal: a short title, day split between Makkah and Madinah, hotels, flights, meals, transport, ziyarah, and support. Say prices are indicative and Pure Path will confirm availability and final pricing.
+- End the proposal by inviting them to contact Pure Path to book.
+`.trim();
+
 function isClientChatMessage(value: unknown): value is ClientChatMessage {
   if (!value || typeof value !== "object") {
     return false;
@@ -104,6 +112,10 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as Record<string, unknown>;
     const contents = sanitizeMessages(body.messages);
+    const instruction =
+      body.mode === "custom-package"
+        ? `${systemInstruction}\n\n${customPackageInstruction}`
+        : systemInstruction;
 
     if (!contents) {
       return Response.json(
@@ -125,11 +137,11 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           system_instruction: {
-            parts: [{ text: systemInstruction }],
+            parts: [{ text: instruction }],
           },
           contents,
           generationConfig: {
-            maxOutputTokens: 700,
+            maxOutputTokens: body.mode === "custom-package" ? 1500 : 700,
           },
         }),
       },

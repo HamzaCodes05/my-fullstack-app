@@ -11,6 +11,7 @@ import { ChatScreen } from "./src/screens/ChatScreen";
 import { DocumentsScreen } from "./src/screens/DocumentsScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { LoginScreen } from "./src/screens/LoginScreen";
+import { JourneyScreen } from "./src/screens/JourneyScreen";
 import { PackagesScreen } from "./src/screens/PackagesScreen";
 import { RegisterScreen } from "./src/screens/RegisterScreen";
 import { ServicesScreen } from "./src/screens/ServicesScreen";
@@ -62,6 +63,7 @@ function AppRoutes() {
       {activeRoute === "packages" && (
         <PackagesScreen onNavigate={setActiveRoute} />
       )}
+      {activeRoute === "journey" && <JourneyScreen />}
       {activeRoute === "services" && (
         <ServicesScreen onNavigate={setActiveRoute} />
       )}

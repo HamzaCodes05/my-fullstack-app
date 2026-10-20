@@ -1,11 +1,14 @@
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef, useState, type ReactNode } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Image,
   ImageBackground,
   Pressable,
   ScrollView,
   Text,
+  TextInput,
   View,
+  type TextInputProps,
 } from "react-native";
 import type { ImageSourcePropType } from "react-native";
 
@@ -343,6 +346,29 @@ export function ScreenActionRow({
           variant="outline"
         />
       ) : null}
+    </View>
+  );
+}
+
+export function PasswordInput({ className, ...props }: TextInputProps) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <View className="justify-center">
+      <TextInput
+        {...props}
+        secureTextEntry={!show}
+        autoComplete="password"
+        className={`${className ?? ""} pr-12`}
+      />
+      <Pressable
+        onPress={() => setShow((s) => !s)}
+        accessibilityLabel={show ? "Hide password" : "Show password"}
+        hitSlop={8}
+        className="absolute right-3.5"
+      >
+        <Ionicons name={show ? "eye-off" : "eye"} size={22} color="#7a8782" />
+      </Pressable>
     </View>
   );
 }

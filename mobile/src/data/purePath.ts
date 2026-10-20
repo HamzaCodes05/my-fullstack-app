@@ -17,6 +17,7 @@ export const navItems: { label: string; route: RouteName }[] = [
   { label: "Home", route: "home" },
   { label: "About Us", route: "about" },
   { label: "Packages", route: "packages" },
+  { label: "Journey", route: "journey" },
   { label: "Services", route: "services" },
   { label: "Documents", route: "documents" },
   { label: "Chat", route: "chat" },

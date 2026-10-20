@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -91,32 +92,30 @@ export default function RegisterPage() {
         <label className="mb-2 block text-sm font-medium text-gray-700">
           Password
         </label>
-        <input
-          type="password"
-          value={form.password}
+        <PasswordInput
+                    value={form.password}
           onChange={(e) =>
             setForm({
               ...form,
               password: e.target.value,
             })
           }
-          className="mb-4 w-full rounded border border-[#075f42]/20 px-3 py-2 text-gray-900 outline-none transition focus:border-[#d89c34] focus:ring-2 focus:ring-[#d89c34]/25"
+          className="mb-4"
           placeholder="Enter password"
         />
 
         <label className="mb-2 block text-sm font-medium text-gray-700">
           Confirm Password
         </label>
-        <input
-          type="password"
-          value={form.confirmPassword}
+        <PasswordInput
+                    value={form.confirmPassword}
           onChange={(e) =>
             setForm({
               ...form,
               confirmPassword: e.target.value,
             })
           }
-          className="mb-6 w-full rounded border border-[#075f42]/20 px-3 py-2 text-gray-900 outline-none transition focus:border-[#d89c34] focus:ring-2 focus:ring-[#d89c34]/25"
+          className="mb-6"
           placeholder="Confirm password"
         />
 

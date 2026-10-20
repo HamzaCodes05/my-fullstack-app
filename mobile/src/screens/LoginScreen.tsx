@@ -11,7 +11,7 @@ import {
 import { useAuth } from "../auth/AuthContext";
 import { API_BASE_URL } from "../config";
 import type { ScreenProps } from "../types";
-import { Card, PrimaryButton, ScreenScroll } from "../components/ui";
+import { Card, PasswordInput, PrimaryButton, ScreenScroll } from "../components/ui";
 
 export function LoginScreen({ onNavigate }: ScreenProps) {
   const { login } = useAuth();
@@ -82,14 +82,12 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
             <Text className="text-sm font-extrabold text-pure-ink">
               Password
             </Text>
-            <TextInput
+            <PasswordInput
               value={form.password}
               onChangeText={(password) =>
                 setForm((current) => ({ ...current, password }))
               }
               placeholder="Enter password"
-              secureTextEntry
-              autoComplete="password"
               className="min-h-[52px] rounded-lg border border-[#cfd9d5] bg-pure-white px-3.5 text-base text-pure-ink placeholder:text-[#7a8782]"
               onSubmitEditing={handleSubmit}
             />

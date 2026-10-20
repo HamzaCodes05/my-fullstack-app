@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 
 import { sacredOffers, pilgrimagePackages } from "@/components/packages/data";
-import { FlightsSection } from "@/components/packages/FlightsSection";
-import { HotelsSection } from "@/components/packages/HotelsSection";
+import { CustomPackageChat } from "@/components/packages/CustomPackageChat";
 import { OffersSection } from "@/components/packages/OffersSection";
 import { PackagesGrid } from "@/components/packages/PackagesGrid";
 import { PackagesHero } from "@/components/packages/PackagesHero";
-import { RestaurantsSection } from "@/components/packages/RestaurantsSection";
-import { getActiveFlights } from "@/lib/flights";
-import { getActiveHotels } from "@/lib/hotels";
-import { getActiveRestaurants } from "@/lib/restaurants";
 
 export const metadata: Metadata = {
   title: "Packages | Pure Path",
@@ -19,19 +14,11 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function PackagesPage() {
-  const [hotels, restaurants, flights] = await Promise.all([
-    getActiveHotels(),
-    getActiveRestaurants(),
-    getActiveFlights(),
-  ]);
-
+export default function PackagesPage() {
   return (
     <main className="min-h-screen bg-[#f8fbfb] text-[#17211f]">
       <PackagesHero />
-      <HotelsSection hotels={hotels} />
-      <RestaurantsSection restaurants={restaurants} />
-      <FlightsSection flights={flights} />
+      <CustomPackageChat />
       <PackagesGrid packages={pilgrimagePackages} />
       <OffersSection offers={sacredOffers} />
     </main>

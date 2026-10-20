@@ -2,6 +2,7 @@ export type RouteName =
   | "home"
   | "about"
   | "packages"
+  | "journey"
   | "services"
   | "documents"
   | "chat"
